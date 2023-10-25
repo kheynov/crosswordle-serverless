@@ -1,0 +1,19 @@
+{
+  "name": "crosswordle-serverless",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "vercel": "vercel"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/seedrandom": "^3.0.7",
+    "vercel": "^32.5.0"
+  },
+  "dependencies": {
+    "@vercel/node": "^1.12.1",
+    "seedrandom": "^3.0.5"
+  }
+}
