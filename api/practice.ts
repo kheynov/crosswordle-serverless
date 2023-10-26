@@ -13,7 +13,7 @@ export default async (req: VercelRequest, res: VercelResponse) => {
 
     const {BASE_SEED} = process.env;
 
-    const {lang = 'ru'} = req.query
+    const {lang = 'ru', seed} = req.query
 
     const contentsString = readFileSync(
         resolve(__dirname, lang == 'ru' ? '../src/files/words.txt' : '../src/files/words_en.txt')
@@ -21,11 +21,9 @@ export default async (req: VercelRequest, res: VercelResponse) => {
         .toString()
         .split('\n')
 
-    const date: any = new Date();
-    const dateStartYear: any = new Date(date.getFullYear(), 0, 0);
-    const dayOfYear: any = Math.floor((date - dateStartYear) / (1000 * 60 * 60 * 24));
-    const seedString: string = dayOfYear + date.getFullYear()
+    const seedString: string = Math.floor(new Date().getTime() / 1000).toString()
 
-    const result = genCrossword(contentsString, BASE_SEED.concat(seedString))
+    const result = genCrossword(contentsString, <string>seed || BASE_SEED.concat(seedString))
+
     return res.json(result)
 }

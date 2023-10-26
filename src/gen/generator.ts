@@ -18,7 +18,15 @@ export class CrosswordGeneratorUtils {
     static readonly GRIDS_TO_MAKE: number = 100
     static readonly GRID_SIZE: number = 7
 
-    private grid: string[][] = Array(CrosswordGeneratorUtils.GRID_SIZE).fill(Array(CrosswordGeneratorUtils.GRID_SIZE).fill(CrosswordGeneratorUtils.EMPTY_CELL))
+    private grid: string[][] = Array.from(Array(CrosswordGeneratorUtils.GRID_SIZE), () => new Array(CrosswordGeneratorUtils.GRID_SIZE))
+
+    constructor() {
+        for (let row = 0; row < CrosswordGeneratorUtils.GRID_SIZE; row++) {
+            for (let column = 0; column < CrosswordGeneratorUtils.GRID_SIZE; column++) {
+                this.grid[row][column] = CrosswordGeneratorUtils.EMPTY_CELL
+            }
+        }
+    }
 
     getGrid(): string[][] {
         return this.grid
@@ -52,6 +60,7 @@ export class CrosswordGeneratorUtils {
 
     private canBePlaced(word: Word): boolean {
         let canBePlaced = true
+        if (word.text == undefined) console.log(word)
         if (this.isValidPosition(word.row, word.column) && this.fitsOnGrid(word)) {
             let index = 0
             while (index < word.text.length) {
@@ -180,8 +189,9 @@ export function generateCrossword(words: string[], seed: string): string[][] {
         return words.filter(word => !usedWords.includes(word))
     }
 
-    function getRandomWord(wordList: string[]): string {
-        return wordList[Math.floor(Math.random() * wordList.length)]
+    function getRandomWord(): string {
+        const words = getUnusedWords()
+        return words[Math.floor(Math.random() * words.length)]
     }
 
     function getRandomWordWithSize(wordList: string[], size: number): string {
@@ -204,11 +214,11 @@ export function generateCrossword(words: string[], seed: string): string[][] {
     }
 
     function getAWordToTry(): string {
-        let word = getRandomWord(words)
+        let word = getRandomWord()
         let goodWord = isGoodWord(word)
 
         while (usedWords.includes(word) || !goodWord) {
-            word = getRandomWord(words)
+            word = getRandomWord()
             goodWord = isGoodWord(word)
         }
         return word
@@ -245,6 +255,7 @@ export function generateCrossword(words: string[], seed: string): string[][] {
                 column: 0,
                 isVertical: false
             }
+            if (word.text == undefined) console.log(word)
             grid.tryUpdate(word)
             pushUsedWords(word.text)
             let continuousFails = 0
@@ -274,7 +285,7 @@ export function shuffleWords(input: string[][], seed: string): ShuffledCrossword
     let shuffles = Math.floor(input.reduce((acc: number, row: string[]) => {
         return acc + row.filter(char => char != CrosswordGeneratorUtils.EMPTY_CELL).length
     }, 0) / 2)
-    let output = input
+    let output = input.map(x => [...x])
 
     seedrandom(seed, {global: true});
 

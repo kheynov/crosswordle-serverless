@@ -12,25 +12,18 @@ export type Crossword = {
 
 export function genCrossword(words: string[], seed: string): Crossword {
     const crossword = generateCrossword(words, seed)
+
+    // for (let row = 0; row < crossword.length; row++) {
+    //     for (let cell = 0; cell < crossword[row].length; cell++) {
+    //         process.stdout.write(`${crossword[row][cell]} `)
+    //     }
+    //     console.log()
+    // }
+
     const crosswordShuffled = shuffleWords(
         crossword,
         seed
     )
-    //for (row in grid) {
-    //         for (cell in row) {
-    //         for (cell in row) {
-    //             print("$cell ")
-    //         }
-    //         println()
-    //     }
-    //     println()
-
-    // for (let row of crossword) {
-    //     for (let cell of row) {
-    //         process.stdout.write(`${cell} `)
-    //     }
-    //     console.log()
-    // }
 
     const cellsState: Record<number, Cell>[] = []
     for (let i = 0; i < crossword.length; i++) {
