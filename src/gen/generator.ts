@@ -177,7 +177,8 @@ export function generateCrossword(words: string[], seed: string): string[][] {
     }
 
     function getRandomWordWithSize(wordList: string[], size: number): string {
-        return wordList.filter(word => word.length >= size)[Math.floor(Math.random() * wordList.length)]
+        const words =wordList.filter(word => word.length >= size)
+        return words[Math.floor(Math.random() * words.length)]
     }
 
     function pushUsedWords(text: string) {
