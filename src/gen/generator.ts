@@ -136,24 +136,6 @@ export class CrosswordGeneratorUtils {
         return intersections
     }
 
-    // private fun invadingTerritory(word: Word, row: Int, column: Int): Boolean {
-    //         val invading: Boolean
-    //         val empty = !isLetter(row, column)
-    //         invading = if (word.isVertical) {
-    //             val weHaveNeighbors =
-    //                 (doesCharacterExist(row, column - 1) || doesCharacterExist(row, column + 1)) || endOfWord(
-    //                     word, row, column
-    //                 ) && doesCharacterExist(row + 1, column)
-    //             empty && weHaveNeighbors
-    //         } else {
-    //             val weHaveNeighbors =
-    //                 (doesCharacterExist(row - 1, column) || doesCharacterExist(row + 1, column)) || endOfWord(
-    //                     word, row, column
-    //                 ) && doesCharacterExist(row, column + 1)
-    //             empty && weHaveNeighbors
-    //         }
-    //         return invading
-    //     }
     private invadingTerritory(word: Word, row: number, column: number): boolean {
         let invading: boolean
         let empty = !this.isLetter(row, column)
@@ -200,7 +182,15 @@ export function generateCrossword(words: string[], seed: string): string[][] {
 
     function pushUsedWords(text: string) {
         usedWords.push(text);
-        text.split('').filter(char => goodStartingLetters.add(char))
+        text.split('').filter(char => {
+            if (!goodStartingLetters.has(char)) {
+                goodStartingLetters.add(char)
+                return true
+
+            } else {
+                return false
+            }
+        })
     }
 
     function getBestGrid(grids: CrosswordGeneratorUtils[]): CrosswordGeneratorUtils {

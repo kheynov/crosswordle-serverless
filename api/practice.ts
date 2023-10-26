@@ -22,7 +22,7 @@ export default async (req: VercelRequest, res: VercelResponse) => {
         .split('\n')
 
     const seedString: string = Math.floor(new Date().getTime() / 1000).toString()
-
+    console.log(`seed: ${seedString}`)
     const result = genCrossword(contentsString, <string>seed || BASE_SEED.concat(seedString))
 
     return res.json(result)
