@@ -8,6 +8,7 @@ export type Crossword = {
     day: number,
     shuffles: number,
     crossword: Record<number, Cell>[],
+    seed: number,
 }
 
 export function genCrossword(words: string[], seed: string): Crossword {
@@ -41,7 +42,8 @@ export function genCrossword(words: string[], seed: string): Crossword {
     const dayOfYear: any = Math.floor((date - dateStartYear) / (1000 * 60 * 60 * 24));
     return {
         day: dayOfYear,
-        shuffles: crosswordShuffled.shuffles + (5 + Math.floor(seedrandom(seed.toString())() * 4)),
+        shuffles: crosswordShuffled.shuffles + (5 + Math.floor(seedrandom(seed)() * 4)),
         crossword: cellsState,
+        seed: Number(seed),
     }
 }

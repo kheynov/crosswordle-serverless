@@ -1,8 +1,9 @@
 import {VercelRequest, VercelResponse} from '@vercel/node';
 import {resolve} from 'path'
 import {readFileSync} from 'fs'
-import {genCrossword} from "../src/utils/utils";
+import {Crossword, genCrossword} from "../src/utils/utils";
 
+type DailyCrossword = Omit<Crossword, "seed">
 
 export default async (req: VercelRequest, res: VercelResponse) => {
     if (req.method !== 'GET') {
@@ -26,6 +27,6 @@ export default async (req: VercelRequest, res: VercelResponse) => {
     const dayOfYear: any = Math.floor((date - dateStartYear) / (1000 * 60 * 60 * 24));
     const seedString: string = dayOfYear + date.getFullYear()
 
-    const result = genCrossword(contentsString, BASE_SEED.concat(seedString))
+    const result: DailyCrossword = genCrossword(contentsString, BASE_SEED.concat(seedString))
     return res.json(result)
 }
