@@ -7,8 +7,8 @@ export type Cell = string[]
 export type Crossword = {
     day: number,
     shuffles: number,
-    crossword: Record<number, Cell>[],
     seed: number,
+    crossword: Record<number, Cell>[],
 }
 
 export function genCrossword(words: string[], seed: string): Crossword {
